@@ -2,12 +2,11 @@ package com.example.hospitalmobile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +21,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
@@ -125,19 +123,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void updateImage() {
         saveBut.setVisibility(View.VISIBLE);
-        imageView.setImageBitmap(selectedBitmap);
-        currentPatient.setPatientPhoto(bitmapToBase64(selectedBitmap));
-    }
 
-    public static String bitmapToBase64(Bitmap bitmap) {
-        if (bitmap == null) {
-            return "";
-        }
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        String image = WorkingWithImage.bitmapToBase64(selectedBitmap);
+        String updateBase64 = WorkingWithImage.resizeBase64Image(image);
+        imageView.setImageBitmap(WorkingWithImage.base64ToBitmap(updateBase64));
+        currentPatient.setPatientPhoto(WorkingWithImage.resizeBase64Image(updateBase64));
     }
 
     private void saveData()

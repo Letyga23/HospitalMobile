@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-
 public class Patient implements Parcelable {
     private int Id_Patient;
     private String LastName;
@@ -37,7 +35,7 @@ public class Patient implements Parcelable {
         Address = address;
         PhoneNumber = phoneNumber;
         Email = email;
-        PatientPhoto = photo;
+        PatientPhoto = WorkingWithImage.resizeBase64Image(photo);
     }
 
     protected Patient(Parcel in) {
@@ -53,6 +51,8 @@ public class Patient implements Parcelable {
         Email = in.readString();
         PatientPhoto = in.readString();
     }
+
+
 
     public static final Creator<Patient> CREATOR = new Creator<Patient>() {
         @Override
