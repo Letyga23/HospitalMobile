@@ -1,7 +1,11 @@
 package com.example.hospitalmobile;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -53,48 +57,13 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Данные загружаются", Toast.LENGTH_SHORT).show();
         mPatientList.clear();
         mAdapter.notifyDataSetChanged();
-        new GetPatients().execute();
-    }
+//        new GetPatients().execute();
 
-    private class GetPatients  extends AsyncTask<Void, Void, String>
-    {
-        @Override
-        protected String doInBackground(Void... voids) {
-            try
-            {
-                URL url = new URL("http://192.168.0.103:5181/Patient");
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                StringBuilder result = new StringBuilder();
-                String line = "";
-
-                while ((line = reader.readLine()) != null)
-                {
-                    result.append(line);
-                }
-
-                return result.toString();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            try
-            {
-                JSONArray jsonArray = new JSONArray(s);
-                for(int i = 0; i < jsonArray.length(); i++)
-                {
+        ApiManager.getData("Get").thenAccept(jsonArray -> {
+            try {
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject hospitalJson = jsonArray.getJSONObject(i);
-                    Patient tempPatient;
-                    tempPatient = new Patient(
+                    Patient tempPatient = new Patient(
                             hospitalJson.getInt("id_Patient"),
                             hospitalJson.getString("lastName"),
                             hospitalJson.getString("firstName"),
@@ -105,18 +74,19 @@ public class MainActivity extends AppCompatActivity {
                             hospitalJson.getString("address"),
                             hospitalJson.getString("phoneNumber"),
                             hospitalJson.getString("email"),
-                            hospitalJson.getString("photo"));
+                            hospitalJson.getString("patientPhoto"));
 
                     mPatientList.add(tempPatient);
-                    mAdapter.notifyDataSetChanged();
-
-                    Toast.makeText(getApplicationContext(), "Данные получены", Toast.LENGTH_SHORT).show();
                 }
+
+                runOnUiThread(() -> {
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Данные получены", Toast.LENGTH_SHORT).show();
+                });
+            } catch (Exception ex) {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Ошибка получения данных: " + ex.getMessage(), Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> Log.d("TAG", "Ошибка получения данных: " + ex.getMessage()));
             }
-            catch (Exception ex)
-            {
-                Toast.makeText(getApplicationContext(), "Ошибка получения данных: " + ex.getMessage() , Toast.LENGTH_LONG).show();
-            }
-        }
+        });
     }
 }

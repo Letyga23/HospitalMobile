@@ -47,6 +47,7 @@ public class HospitalAdapter extends BaseAdapter
 
         Patient currentPatient = mPatientList.get(position);
 
+        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
         imageView.setImageBitmap(currentPatient.getBitmapSource());
         lastName.setText(currentPatient.getLastName());
         firstName.setText(currentPatient.getFirstName());
@@ -57,6 +58,7 @@ public class HospitalAdapter extends BaseAdapter
             @Override
             public void onClick(View v) {
                 Intent intentDetails = new Intent(mContext, DetailsActivity.class);
+
                 intentDetails.putExtra("patient", currentPatient);
 
                 mContext.startActivity(intentDetails);

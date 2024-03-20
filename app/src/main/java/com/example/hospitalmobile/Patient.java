@@ -8,6 +8,11 @@ import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+
 public class Patient implements Parcelable {
     private int Id_Patient;
     private String LastName;
@@ -19,7 +24,7 @@ public class Patient implements Parcelable {
     private String Address;
     private String PhoneNumber;
     private String Email;
-    private String Photo;
+    private String PatientPhoto;
 
     public Patient(int id_Patient, String lastName, String firstName, String patronymic, String passportData, String dateOfBirth, String gender, String address, String phoneNumber, String email, String photo) {
         Id_Patient = id_Patient;
@@ -32,7 +37,7 @@ public class Patient implements Parcelable {
         Address = address;
         PhoneNumber = phoneNumber;
         Email = email;
-        Photo = photo;
+        PatientPhoto = photo;
     }
 
     protected Patient(Parcel in) {
@@ -46,7 +51,7 @@ public class Patient implements Parcelable {
         Address = in.readString();
         PhoneNumber = in.readString();
         Email = in.readString();
-        Photo = in.readString();
+        PatientPhoto = in.readString();
     }
 
     public static final Creator<Patient> CREATOR = new Creator<Patient>() {
@@ -139,18 +144,24 @@ public class Patient implements Parcelable {
         Email = email;
     }
 
-    public String getPhoto() {
-        return Photo;
+    public String getPatientPhoto() {
+        return PatientPhoto;
     }
 
-    public void setPhoto(String photo) {
-        Photo = photo;
+    public void setPatientPhoto(String patientPhoto) {
+        PatientPhoto = patientPhoto;
     }
 
     public Bitmap getBitmapSource()
     {
-        byte[] array = android.util.Base64.decode(getPhoto(), Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(array, 0, array.length);
+        String patientPhoto = getPatientPhoto();
+        if (patientPhoto != null) {
+            byte[] array = android.util.Base64.decode(patientPhoto, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(array, 0, array.length);
+        } else {
+            // Обработка случая, когда строка Base64 пуста или null
+            return null;
+        }
     }
 
     @Override
@@ -170,6 +181,22 @@ public class Patient implements Parcelable {
         dest.writeString(Address);
         dest.writeString(PhoneNumber);
         dest.writeString(Email);
-        dest.writeString(Photo);
+        dest.writeString(PatientPhoto);
+    }
+
+    public JSONObject convertToJSONObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Id_Patient", this.Id_Patient);
+        jsonObject.put("LastName", this.LastName);
+        jsonObject.put("FirstName", this.FirstName);
+        jsonObject.put("Patronymic", this.Patronymic);
+        jsonObject.put("PassportData", this.PassportData);
+        jsonObject.put("DateOfBirth", this.DateOfBirth);
+        jsonObject.put("Gender", this.Gender);
+        jsonObject.put("Address", this.Address);
+        jsonObject.put("PhoneNumber", this.PhoneNumber);
+        jsonObject.put("Email", this.Email);
+        jsonObject.put("PatientPhoto", this.PatientPhoto);
+        return jsonObject;
     }
 }
