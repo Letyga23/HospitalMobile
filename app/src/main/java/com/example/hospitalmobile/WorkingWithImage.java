@@ -3,7 +3,6 @@ package com.example.hospitalmobile;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 
@@ -20,12 +19,11 @@ public class WorkingWithImage {
         byte[] imageBytes = Base64.decode(base64Image, Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
-        int quality = 100; // Начальное качество JPEG
+        int quality = 100;
         while (imageBytes.length > MAX_SIZE_BYTES && quality >= 0) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
             imageBytes = outputStream.toByteArray();
-            Log.d("TAG", "Quality: " + quality + ", Size: " + imageBytes.length);
             quality -= 5;
         }
 

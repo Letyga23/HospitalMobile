@@ -3,9 +3,11 @@ package com.example.hospitalmobile;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -50,10 +52,22 @@ public class MainActivity extends AppCompatActivity {
         listViewHospitals.setAdapter(mAdapter);
 
         findViewById(R.id.LoadButton).setOnClickListener(v -> loadData());
+
+        findViewById(R.id.addBut).setVisibility(View.INVISIBLE);
+    }
+
+    private void addData()
+    {
+        Intent intentDetails = new Intent(this, DetailsActivity.class);
+        startActivity(intentDetails);
     }
 
     private void loadData()
     {
+        Button add = findViewById(R.id.addBut);
+        add.setVisibility(View.VISIBLE);
+        add.setOnClickListener(v -> addData());
+
         Toast.makeText(getApplicationContext(), "Данные загружаются", Toast.LENGTH_SHORT).show();
         mPatientList.clear();
         mAdapter.notifyDataSetChanged();

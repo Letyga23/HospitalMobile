@@ -7,225 +7,250 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
-    <TextView
-        android:id="@+id/LastName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="8dp"
-        android:text="Фамилия:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/FirstName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="82dp"
-        android:layout_marginTop="8dp"
-        android:text="Имя:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LastName" />
-
-    <TextView
-        android:id="@+id/Patronymic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
-        android:text="Отчество:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FirstName" />
-
     <ImageView
         android:id="@+id/photoPacient"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:background="#787878"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/Сhange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailDate"
+        app:layout_constraintTop_toBottomOf="@+id/table"
         app:srcCompat="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/PassportData"
+    <TableLayout
+        android:id="@+id/table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Паспортные \nданные:"
-        android:textColor="@color/black"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Patronymic" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/DateOfBirth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="8dp"
-        android:text="Дата рождения:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PassportData" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/Gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="8dp"
-        android:text="Пол:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DateOfBirth" />
+            <TextView
+                android:id="@+id/LastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dip"
+                android:text="Фамилия:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="8dp"
-        android:text="Адрес:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Gender" />
+            <EditText
+                android:id="@+id/LastNameDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
 
-    <TextView
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
-        android:text="Эл. почта:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhoneNumber" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/LastNameDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/LastName"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/FirstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Имя:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/FirstNameDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/FirstName"
-        app:layout_constraintTop_toBottomOf="@+id/LastNameDate" />
+            <EditText
+                android:id="@+id/FirstNameDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
 
-    <TextView
-        android:id="@+id/PatronymicDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/Patronymic"
-        app:layout_constraintTop_toBottomOf="@+id/FirstNameDate" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/PassportDataDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/PassportData"
-        app:layout_constraintTop_toBottomOf="@+id/PatronymicDate" />
+            <TextView
+                android:id="@+id/Patronymic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отчество:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/GenderDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/Gender"
-        app:layout_constraintTop_toBottomOf="@+id/DateOfBirthDate" />
+            <EditText
+                android:id="@+id/PatronymicDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
 
-    <TextView
-        android:id="@+id/DateOfBirthDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/DateOfBirth"
-        app:layout_constraintTop_toBottomOf="@+id/PassportDataDate" />
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/AddressDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/Address"
-        app:layout_constraintTop_toBottomOf="@+id/GenderDate" />
+            <TextView
+                android:id="@+id/PassportData"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Паспортные \nданные:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/EmailDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/Email"
-        app:layout_constraintTop_toBottomOf="@+id/PhoneNumberDate" />
+            <EditText
+                android:id="@+id/PassportDataDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
 
-    <TextView
-        android:id="@+id/PhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="8dp"
-        android:text="Телефон:"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Address" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/PhoneNumberDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/PhoneNumber"
-        app:layout_constraintTop_toBottomOf="@+id/AddressDate" />
+            <TextView
+                android:id="@+id/DateOfBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Дата рождения:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/DateOfBirthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Пол:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/GenderDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Адрес:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/AddressDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/PhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Телефон:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/PhoneNumberDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Эл. почта:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/EmailDate"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </TableRow>
+    </TableLayout>
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/Сhange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Сохранить"
+        android:layout_marginStart="136dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="16dp"
+        android:text="Изменить"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoPacient" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

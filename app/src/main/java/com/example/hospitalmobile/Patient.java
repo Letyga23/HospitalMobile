@@ -24,6 +24,8 @@ public class Patient implements Parcelable {
     private String Email;
     private String PatientPhoto;
 
+    public Patient() {}
+
     public Patient(int id_Patient, String lastName, String firstName, String patronymic, String passportData, String dateOfBirth, String gender, String address, String phoneNumber, String email, String photo) {
         Id_Patient = id_Patient;
         LastName = lastName;

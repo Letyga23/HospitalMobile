@@ -2,12 +2,10 @@ package com.example.hospitalmobile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,13 +20,20 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONException;
 
-import java.io.ByteArrayOutputStream;
-
 public class DetailsActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView imageView;
+    private EditText lastName = null;
+    private EditText firstName = null;
+    private EditText patronymic = null;
+    private EditText passportData = null;
+    private EditText dateOfBirth = null;
+    private TextView gender = null;
+    private TextView address = null;
+    private TextView phoneNumber = null;
+    private TextView email = null;
     private Bitmap selectedBitmap = null;
-    private Button saveBut = null;
+    private Button changeBut = null;
     private Patient currentPatient = null;
 
     @Override
@@ -42,19 +47,34 @@ public class DetailsActivity extends AppCompatActivity {
             return insets;
         });
 
+        imageView = findViewById(R.id.photoPacient);
+        lastName = findViewById(R.id.LastNameDate);
+        firstName = findViewById(R.id.FirstNameDate);
+        patronymic = findViewById(R.id.PatronymicDate);
+        passportData = findViewById(R.id.PassportDataDate);
+        dateOfBirth = findViewById(R.id.DateOfBirthDate);
+        gender = findViewById(R.id.GenderDate);
+        address = findViewById(R.id.AddressDate);
+        phoneNumber = findViewById(R.id.PhoneNumberDate);
+        email = findViewById(R.id.EmailDate);
+        changeBut = findViewById(R.id.Сhange);
+
 
         currentPatient = getIntent().getParcelableExtra("patient");
-        imageView = findViewById(R.id.photoPacient);
-        TextView lastName = findViewById(R.id.LastNameDate);
-        TextView firstName = findViewById(R.id.FirstNameDate);
-        TextView patronymic = findViewById(R.id.PatronymicDate);
-        TextView passportData = findViewById(R.id.PassportDataDate);
-        TextView dateOfBirth = findViewById(R.id.DateOfBirthDate);
-        TextView gender = findViewById(R.id.GenderDate);
-        TextView address = findViewById(R.id.AddressDate);
-        TextView phoneNumber = findViewById(R.id.PhoneNumberDate);
-        TextView email = findViewById(R.id.EmailDate);
+        if(currentPatient != null)
+        {
+            blockingEdin(false);
+            installingData();
+            changeBut.setOnClickListener(v -> changeOn());
+        }
+        else
+            addingModeActive();
 
+    }
+
+
+    private void installingData()
+    {
         imageView.setImageBitmap(currentPatient.getBitmapSource());
         lastName.setText(currentPatient.getLastName());
         firstName.setText(currentPatient.getFirstName());
@@ -65,13 +85,52 @@ public class DetailsActivity extends AppCompatActivity {
         address.setText(currentPatient.getAddress());
         phoneNumber.setText(currentPatient.getPhoneNumber());
         email.setText(currentPatient.getEmail());
-
-        imageView.setOnClickListener(v -> showConfirmationDialog());
-
-        saveBut = findViewById(R.id.saveButton);
-        saveBut.setVisibility(View.INVISIBLE);
-        saveBut.setOnClickListener(v -> saveData());
     }
+
+    private void addingModeActive()
+    {
+        currentPatient = new Patient();
+        changeBut.setText("Добавить");
+        imageView.setOnClickListener(v -> showConfirmationDialog());
+        changeBut.setOnClickListener(v -> addData());
+    }
+
+    private void blockingEdin(boolean flag)
+    {
+        imageView.setEnabled(flag);
+        lastName.setEnabled(flag);
+        firstName.setEnabled(flag);
+        patronymic.setEnabled(flag);
+        passportData.setEnabled(flag);
+        dateOfBirth.setEnabled(flag);
+        gender.setEnabled(flag);
+        address.setEnabled(flag);
+        phoneNumber.setEnabled(flag);
+        email.setEnabled(flag);
+    }
+
+    private void clear()
+    {
+        imageView.setImageResource(0);
+        lastName.setText("");
+        firstName.setText("");
+        patronymic.setText("");
+        passportData.setText("");
+        dateOfBirth.setText("");
+        gender.setText("");
+        address.setText("");
+        phoneNumber.setText("");
+        email.setText("");
+    }
+
+    private void changeOn()
+    {
+        changeBut.setText("Сохранить");
+        blockingEdin(true);
+        imageView.setOnClickListener(v -> showConfirmationDialog());
+        changeBut.setOnClickListener(v -> updateData());
+    }
+
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -122,22 +181,51 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void updateImage() {
-        saveBut.setVisibility(View.VISIBLE);
-
         String image = WorkingWithImage.bitmapToBase64(selectedBitmap);
         String updateBase64 = WorkingWithImage.resizeBase64Image(image);
         imageView.setImageBitmap(WorkingWithImage.base64ToBitmap(updateBase64));
         currentPatient.setPatientPhoto(WorkingWithImage.resizeBase64Image(updateBase64));
     }
 
-    private void saveData()
+    private void changeObject()
+    {
+        currentPatient.setLastName(lastName.getText().toString());
+        currentPatient.setFirstName(firstName.getText().toString());
+        currentPatient.setPatronymic(patronymic.getText().toString());
+        currentPatient.setPassportData(passportData.getText().toString());
+        currentPatient.setDateOfBirth(dateOfBirth.getText().toString());
+        currentPatient.setGender(gender.getText().toString());
+        currentPatient.setAddress(address.getText().toString());
+        currentPatient.setPhoneNumber(phoneNumber.getText().toString());
+        currentPatient.setEmail(email.getText().toString());
+    }
+
+    private void updateData()
     {
         try {
+            changeObject();
             ApiManager.sendRequest(HttpRequestType.PUT, "Put/" + currentPatient.getId_Patient(), currentPatient.convertToJSONObject());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
         Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
-        saveBut.setVisibility(View.INVISIBLE);
+        changeBut.setText("Изменить");
+        changeBut.setOnClickListener(v -> changeOn());
+        blockingEdin(false);
+        imageView.setOnClickListener(null);
+    }
+
+    private void addData()
+    {
+        try {
+            changeObject();
+            ApiManager.sendRequest(HttpRequestType.POST, "Post", currentPatient.convertToJSONObject());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Toast.makeText(getApplicationContext(), "Данные сохранены", Toast.LENGTH_SHORT).show();
+        changeBut.setText("Добавить");
+        changeBut.setOnClickListener(v -> addingModeActive());
+        clear();
     }
 }
