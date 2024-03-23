@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private HospitalAdapter mAdapter;
     private List<Patient> mPatientList = new ArrayList<>();
+    private TextView searchText = null;
+    private Spinner spinner = null;
+    private ListView listViewHospitals = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +54,38 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        ListView listViewHospitals = findViewById(R.id.listViewPacients);
-        mAdapter = new HospitalAdapter(MainActivity.this, mPatientList);
-        listViewHospitals.setAdapter(mAdapter);
-
         findViewById(R.id.LoadButton).setOnClickListener(v -> loadData());
 
         findViewById(R.id.addBut).setVisibility(View.INVISIBLE);
+
+        setSearchCategory();
+
+        searchText = findViewById(R.id.searchText);
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {search(charSequence.toString());}
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
+    private void setSearchCategory()
+    {
+        spinner = findViewById(R.id.SearchCategory);
+        List<String> items = new ArrayList<>();
+        items.add("Фамилия");
+        items.add("Имя");
+        items.add("Отчество");
+
+        // Создаем адаптер для Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+
+        // Присоединяем адаптер к Spinner
+        spinner.setAdapter(adapter);
     }
 
     private void addData()
@@ -64,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadData()
     {
+        listViewHospitals = findViewById(R.id.listViewPacients);
+        mAdapter = new HospitalAdapter(MainActivity.this, mPatientList);
+        listViewHospitals.setAdapter(mAdapter);
+
+        searchText.setText("");
+
         Button add = findViewById(R.id.addBut);
         add.setVisibility(View.VISIBLE);
         add.setOnClickListener(v -> addData());
@@ -103,4 +141,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void search(String searchText) {
+        if (mPatientList != null) {
+            List<Patient> filteredPatientList = new ArrayList<>();
+            String textForComparison = "";
+
+            switch (spinner.getSelectedItemPosition()) {
+                case 0:
+                    textForComparison = "lastName";
+                    break;
+                case 1:
+                    textForComparison = "firstName";
+                    break;
+                case 2:
+                    textForComparison = "patronymic";
+                    break;
+            }
+
+            for (Patient patient : mPatientList) {
+                String patientField = "";
+                switch (textForComparison) {
+                    case "lastName":
+                        patientField = patient.getLastName();
+                        break;
+                    case "firstName":
+                        patientField = patient.getFirstName();
+                        break;
+                    case "patronymic":
+                        patientField = patient.getPatronymic();
+                        break;
+                }
+
+                if (patientField.toLowerCase().startsWith(searchText.toLowerCase())) {
+                    filteredPatientList.add(patient);
+                }
+            }
+
+            mAdapter = new HospitalAdapter(MainActivity.this, filteredPatientList);
+            listViewHospitals.setAdapter(mAdapter);
+        }
+    }
+
 }
